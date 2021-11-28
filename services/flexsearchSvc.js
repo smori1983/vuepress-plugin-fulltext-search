@@ -105,12 +105,20 @@ export default {
   normalizeString,
 }
 
+/**
+ * @param page
+ * @returns {string}
+ */
 function getParentPageTitle(page) {
   const pathParts = page.path.split('/')
   let parentPagePath = '/'
-  if (pathParts[1]) parentPagePath = `/${pathParts[1]}/`
+
+  if (pathParts[1]) {
+    parentPagePath = `/${pathParts[1]}/`
+  }
 
   const parentPage = pagesByPath[parentPagePath] || page
+
   return parentPage.title
 }
 
