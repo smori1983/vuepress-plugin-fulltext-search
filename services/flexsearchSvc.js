@@ -267,6 +267,18 @@ function getContentMatch(page, term) {
   }
 }
 
+/**
+ * @typedef {Object} ContentStrInfo
+ * @property {string} contentStr
+ * @property {number[]} contentHighlight
+ */
+
+/**
+ *
+ * @param page
+ * @param {MatchInformation} match
+ * @returns {ContentStrInfo}
+ */
 function getContentStr(page, match) {
   const snippetLength = 120
   const { charIndex, termLength } = match
@@ -274,14 +286,23 @@ function getContentStr(page, match) {
   let lineStartIndex = page.content.lastIndexOf('\n', charIndex)
   let lineEndIndex = page.content.indexOf('\n', charIndex)
 
-  if (lineStartIndex === -1) lineStartIndex = 0
-  if (lineEndIndex === -1) lineEndIndex = page.content.length
+  if (lineStartIndex === -1) {
+    lineStartIndex = 0
+  }
+  if (lineEndIndex === -1) {
+    lineEndIndex = page.content.length
+  }
 
   const line = page.content.slice(lineStartIndex, lineEndIndex)
   const lineCharIndex = charIndex - lineStartIndex
   const contentHighlight = [lineCharIndex, termLength]
 
-  if (snippetLength >= line.length) return { contentStr: line, contentHighlight }
+  if (snippetLength >= line.length) {
+    return {
+      contentStr: line,
+      contentHighlight,
+    }
+  }
 
   const additionalCharactersFromStart = _.round((snippetLength - termLength) / 2)
   const snippetStart = Math.max(lineCharIndex - additionalCharactersFromStart, 0)
@@ -293,7 +314,11 @@ function getContentStr(page, match) {
     contentStr = '...' + contentStr
     contentHighlight[0] = contentHighlight[0] + 3
   }
-  if (snippetEnd < line.length) contentStr = contentStr + '...'
+
+  if (snippetEnd < line.length) {
+    contentStr = contentStr + '...'
+  }
+
   return {
     contentStr,
     contentHighlight,
