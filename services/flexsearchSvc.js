@@ -161,13 +161,29 @@ function getFullHeading(page, headerIndex, match) {
   return { headingStr, headingHighlight }
 }
 
+/**
+ * @typedef {Object} MatchInformation
+ * @property {(number|null)} headerIndex
+ * @property {number} charIndex
+ * @property {number} termLength
+ */
+
+/**
+ * @param page
+ * @param query
+ * @param terms
+ * @returns {MatchInformation|null}
+ */
 function getMatch(page, query, terms) {
   const matches = terms
     .map(t => {
       return getHeaderMatch(page, t) || getContentMatch(page, t)
     })
     .filter(m => m)
-  if (matches.length === 0) return null
+
+  if (matches.length === 0) {
+    return null
+  }
 
   if (matches.every(m => m.headerIndex != null)) {
     return getHeaderMatch(page, query) || matches[0]
@@ -176,27 +192,55 @@ function getMatch(page, query, terms) {
   return getContentMatch(page, query) || matches.find(m => m.headerIndex == null)
 }
 
+/**
+ * @param page
+ * @param term
+ * @returns {MatchInformation|null}
+ */
 function getHeaderMatch(page, term) {
-  if (!page.headers) return null
+  if (!page.headers) {
+    return null
+  }
+
   for (let i = 0; i < page.headers.length; i++) {
     const h = page.headers[i]
     const charIndex = h.normalizedTitle.indexOf(term)
-    if (charIndex === -1) continue
+
+    if (charIndex === -1) {
+      continue
+    }
+
     return {
       headerIndex: i,
       charIndex,
       termLength: term.length,
     }
   }
+
   return null
 }
 
+/**
+ * @param page
+ * @param term
+ * @returns {MatchInformation|null}
+ */
 function getContentMatch(page, term) {
-  if (!page.normalizedContent) return null
-  const charIndex = page.normalizedContent.indexOf(term)
-  if (charIndex === -1) return null
+  if (!page.normalizedContent) {
+    return null
+  }
 
-  return { headerIndex: null, charIndex, termLength: term.length }
+  const charIndex = page.normalizedContent.indexOf(term)
+
+  if (charIndex === -1) {
+    return null
+  }
+
+  return {
+    headerIndex: null,
+    charIndex,
+    termLength: term.length,
+  }
 }
 
 function getContentStr(page, match) {
