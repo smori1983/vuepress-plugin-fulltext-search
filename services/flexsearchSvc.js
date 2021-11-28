@@ -114,15 +114,33 @@ function getParentPageTitle(page) {
   return parentPage.title
 }
 
+/**
+ * @typedef {Object} AdditionalInfo
+ * @property {string} headingStr
+ * @property {(number[]|false)} [headingHighlight]
+ * @property {string} slug
+ * @property {(string|null)} contentStr
+ * @property {number[]} [contentHighlight]
+ */
+
+/**
+ *
+ * @param page
+ * @param {string} queryString
+ * @param {string[]} queryTerms
+ * @returns {AdditionalInfo}
+ */
 function getAdditionalInfo(page, queryString, queryTerms) {
   const query = queryString.toLowerCase()
   const match = getMatch(page, query, queryTerms)
-  if (!match)
+
+  if (!match) {
     return {
       ...getFullHeading(page),
       slug: '',
       contentStr: null,
     }
+  }
 
   if (match.headerIndex != null) {
     // header match
