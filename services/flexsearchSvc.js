@@ -62,6 +62,12 @@ export default {
     }
     pagesByPath = _.keyBy(pages, 'path')
   },
+  /**
+   * @param {string} queryString
+   * @param {string[]} queryTerms
+   * @param {number} [limit]
+   * @returns {Promise<MatchResult[]>}
+   */
   async match(queryString, queryTerms, limit = 7) {
     const searchParams = [
       {
@@ -106,6 +112,30 @@ export default {
 }
 
 /**
+ * @typedef {Object} MatchResult
+ * @property {string} key
+ * @property {string} title
+ * @property {Object} frontmatter
+ * @property {Object[]} headers
+ * @property {string} path
+ * @property {string} regularPath
+ * @property {string} relativePath
+ *
+ * @property {Object} charsets
+ * @property {(string|null)} headersStr
+ * @property {string} content
+ * @property {string} normalizedContent
+ *
+ * @property {(string|null)} parentPageTitle
+ *
+ * @property {string} headingStr
+ * @property {(number[]|false)} [headingHighlight]
+ * @property {string} slug
+ * @property {(string|null)} contentStr
+ * @property {number[]} [contentHighlight]
+ */
+
+/**
  * @param page
  * @returns {string}
  */
@@ -132,7 +162,6 @@ function getParentPageTitle(page) {
  */
 
 /**
- *
  * @param page
  * @param {string} queryString
  * @param {string[]} queryTerms
