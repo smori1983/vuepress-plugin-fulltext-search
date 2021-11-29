@@ -49,9 +49,6 @@
 <script>
 import flexsearchSvc from '../services/flexsearchSvc'
 
-// see https://vuepress.vuejs.org/plugin/option-api.html#clientdynamicmodules
-import hooks from '@dynamic/hooks'
-
 /* global SEARCH_MAX_SUGGESTIONS, SEARCH_PATHS, SEARCH_HOTKEYS */
 export default {
   name: 'SearchBox',
@@ -120,10 +117,6 @@ export default {
         this.queryTerms,
         this.$site.themeConfig.searchMaxSuggestions || SEARCH_MAX_SUGGESTIONS,
       )
-      if (hooks.processSuggestions) {
-        // augment suggestions with user-provided function
-        suggestions = await hooks.processSuggestions(suggestions, this.query, this.queryTerms)
-      }
       this.suggestions = suggestions.map(s => ({
         ...s,
         headingDisplay: highlight(s.headingStr, s.headingHighlight),
@@ -178,10 +171,6 @@ export default {
     go(i) {
       if (!this.showSuggestions) {
         return
-      }
-      if (hooks.onGoToSuggestion) {
-        const result = hooks.onGoToSuggestion(i, this.suggestions[i], this.query, this.queryTerms)
-        if (result === true) return
       }
       if (this.suggestions[i].external) {
         window.open(this.suggestions[i].path + this.suggestions[i].slug, '_blank')

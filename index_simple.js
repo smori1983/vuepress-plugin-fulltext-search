@@ -41,12 +41,6 @@ module.exports = (options, ctx, globalCtx) => ({
   alias: {
     '@SearchBox': path.resolve(__dirname, 'components/SearchBox.vue'),
   },
-  clientDynamicModules() {
-    return {
-      name: 'hooks.js',
-      content: options.hooks || 'export default {}',
-    }
-  },
   define() {
     return {
       OPTIONS: options,
