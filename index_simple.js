@@ -39,7 +39,7 @@ module.exports = (options, ctx, globalCtx) => ({
     }
   },
   alias: {
-    '@SearchBox': path.resolve(__dirname, 'components/SearchBox.vue'),
+    '@SearchBox': path.resolve(__dirname, 'components/SearchBoxSimple.vue'),
   },
   define() {
     return {

@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import flexsearchSvc from '../services/flexsearchSvc'
+import flexsearchSvc from '../services/flexsearchSvcSimple'
 
 /* global SEARCH_MAX_SUGGESTIONS, SEARCH_PATHS, SEARCH_HOTKEYS */
 export default {
