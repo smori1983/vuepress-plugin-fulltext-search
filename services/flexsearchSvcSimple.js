@@ -187,47 +187,6 @@ function getAdditionalInfo(page, queryString, queryTerms) {
 }
 
 /**
- * @typedef {Object} FullHeadingInfo
- * @property {string} headingStr
- * @property {number[]|false} [headingHighlight]
- */
-
-/**
- *
- * @param page
- * @param {(number|null)} [headerIndex]
- * @param {MatchInformation} [match]
- * @returns {FullHeadingInfo}
- */
-function getFullHeading(page, headerIndex, match) {
-  if (headerIndex == null) {
-    return {
-      headingStr: page.title,
-    }
-  }
-
-  const headersPath = []
-  while (headerIndex != null) {
-    const header = page.headers[headerIndex]
-    headersPath.unshift(header)
-    headerIndex = _.findLastIndex(page.headers, h => h.level === header.level - 1, headerIndex - 1)
-    if (headerIndex === -1) {
-      headerIndex = null
-    }
-  }
-
-  const headingStr = headersPath.map(h => h.title).join(' > ')
-  const prefixPath = headersPath.slice(0, -1)
-  const prefixLength = _.sum(prefixPath.map(p => (p.title || '').length)) + prefixPath.length * 3
-  const headingHighlight = match && match.headerIndex != null && [match.charIndex + prefixLength, match.termLength]
-
-  return {
-    headingStr,
-    headingHighlight,
-  }
-}
-
-/**
  * @typedef {Object} MatchInformation
  * @property {(number|null)} headerIndex
  * @property {number} charIndex
@@ -306,6 +265,47 @@ function getContentMatch(page, term) {
     headerIndex: null,
     charIndex,
     termLength: term.length,
+  }
+}
+
+/**
+ * @typedef {Object} FullHeadingInfo
+ * @property {string} headingStr
+ * @property {number[]|false} [headingHighlight]
+ */
+
+/**
+ *
+ * @param page
+ * @param {(number|null)} [headerIndex]
+ * @param {MatchInformation} [match]
+ * @returns {FullHeadingInfo}
+ */
+function getFullHeading(page, headerIndex, match) {
+  if (headerIndex == null) {
+    return {
+      headingStr: page.title,
+    }
+  }
+
+  const headersPath = []
+  while (headerIndex != null) {
+    const header = page.headers[headerIndex]
+    headersPath.unshift(header)
+    headerIndex = _.findLastIndex(page.headers, h => h.level === header.level - 1, headerIndex - 1)
+    if (headerIndex === -1) {
+      headerIndex = null
+    }
+  }
+
+  const headingStr = headersPath.map(h => h.title).join(' > ')
+  const prefixPath = headersPath.slice(0, -1)
+  const prefixLength = _.sum(prefixPath.map(p => (p.title || '').length)) + prefixPath.length * 3
+  const headingHighlight = match && match.headerIndex != null && [match.charIndex + prefixLength, match.termLength]
+
+  return {
+    headingStr,
+    headingHighlight,
   }
 }
 
