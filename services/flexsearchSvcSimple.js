@@ -117,16 +117,35 @@ export default {
  * @returns {string}
  */
 function getParentPageTitle(page) {
-  const pathParts = page.path.split('/')
-  let parentPagePath = '/'
-
-  if (pathParts[1]) {
-    parentPagePath = `/${pathParts[1]}/`
-  }
-
-  const parentPage = pagesByPath[parentPagePath] || page
+  const parentPath = getParentPath(page)
+  const parentPage = pagesByPath[parentPath] || page
 
   return parentPage.title
+}
+
+/**
+ * @param page
+ * @returns {string}
+ */
+function getParentPath(page) {
+  // '/'
+  // '/path1/'
+  // '/path1/page.html'
+  // '/path1/path2/'
+  // '/path1/path2/page.html'
+
+  if (page.path === '/') {
+    return '/'
+  }
+
+  /** @type {string[]} */
+  const pathParts = page.path.split('/')
+
+  if (pathParts.slice(-1).join() === '') {
+    return pathParts.slice(0, -2).concat(['']).join('/')
+  } else {
+    return pathParts.slice(0, -1).concat(['']).join('/')
+  }
 }
 
 /**
