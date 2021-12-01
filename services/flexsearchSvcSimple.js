@@ -4,10 +4,15 @@ import Flexsearch from 'flexsearch'
 import _ from 'lodash'
 
 import cjkTokenizer from '../misc/cjk-tokenizer'
+import ParentInfo from '../misc/parent-info'
+
+/**
+ * @type {ParentInfo}
+ */
+let parentInfo
 
 let index = null
 let cjkIndex = null
-let pagesByPath = null
 
 export default {
   buildIndex(allPages, options) {
@@ -38,7 +43,8 @@ export default {
       })
       cjkIndex.add(cjkPages)
     }
-    pagesByPath = _.keyBy(pages, 'path')
+
+    parentInfo = new ParentInfo(pages)
   },
   /**
    * @param {string} queryString
@@ -71,7 +77,7 @@ export default {
     const searchResult = _.uniqBy([...searchResult1, ...searchResult3], 'path')
     const result = searchResult.map(page => ({
       ...page,
-      parentPageTitle: getParentPageTitle(page),
+      parentPageTitle: parentInfo.getParentPageTitle(page),
       ...getAdditionalInfo(page, normalizeString(queryString), queryTerms),
     }))
 
@@ -111,42 +117,6 @@ export default {
  * @property {(string|null)} contentStr
  * @property {number[]} [contentHighlight]
  */
-
-/**
- * @param page
- * @returns {string}
- */
-function getParentPageTitle(page) {
-  const parentPath = getParentPath(page)
-  const parentPage = pagesByPath[parentPath] || page
-
-  return parentPage.title
-}
-
-/**
- * @param page
- * @returns {string}
- */
-function getParentPath(page) {
-  // '/'
-  // '/path1/'
-  // '/path1/page.html'
-  // '/path1/path2/'
-  // '/path1/path2/page.html'
-
-  if (page.path === '/') {
-    return '/'
-  }
-
-  /** @type {string[]} */
-  const pathParts = page.path.split('/')
-
-  if (pathParts.slice(-1).join() === '') {
-    return pathParts.slice(0, -2).concat(['']).join('/')
-  } else {
-    return pathParts.slice(0, -1).concat(['']).join('/')
-  }
-}
 
 /**
  * @typedef {Object} AdditionalInfo
