@@ -22,11 +22,14 @@
         :key="i"
         class="suggestion"
         :class="{ focused: i === focusIndex }"
-        @mousedown="go(i)"
-        @mouseenter="focus(i)"
       >
         <div v-if="s.parentPageTitle" class="parent-page-title" v-html="s.parentPageTitle" />
-        <a :href="s.path + s.slug" @click.prevent>
+        <a
+          :href="s.path + s.slug"
+          @mousedown="go(i)"
+          @mouseenter="focus(i)"
+          @click.prevent
+        >
           <div class="suggestion-row">
             <div class="page-title">{{ s.title || s.path }}</div>
             <div class="suggestion-content">
@@ -259,7 +262,6 @@ function highlight(str, strHighlight) {
     line-height 1.4
     // padding 0.4rem 0.6rem
     border-radius 4px
-    cursor pointer
     width 100%
     .parent-page-title
       color white
@@ -268,6 +270,7 @@ function highlight(str, strHighlight) {
       padding 5px
     a
       display block
+      cursor pointer
       white-space normal
       color lighten($textColor, 15%)
       width 100%
