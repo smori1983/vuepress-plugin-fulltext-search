@@ -25,8 +25,8 @@
         @mousedown="go(i)"
         @mouseenter="focus(i)"
       >
+        <div v-if="s.parentPageTitle" class="parent-page-title" v-html="s.parentPageTitle" />
         <a :href="s.path + s.slug" @click.prevent>
-          <div v-if="s.parentPageTitle" class="parent-page-title" v-html="s.parentPageTitle" />
           <div class="suggestion-row">
             <div class="page-title">{{ s.title || s.path }}</div>
             <div class="suggestion-content">
@@ -261,16 +261,16 @@ function highlight(str, strHighlight) {
     border-radius 4px
     cursor pointer
     width 100%
+    .parent-page-title
+      color white
+      font-weight 600
+      background-color $accentColor
+      padding 5px
     a
       display block
       white-space normal
       color lighten($textColor, 15%)
       width 100%
-      .parent-page-title
-        color white
-        font-weight 600
-        background-color $accentColor
-        padding 5px
 
       .suggestion-row
         border-collapse collapse
