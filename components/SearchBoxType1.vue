@@ -133,19 +133,6 @@ export default {
       return '/'
     },
 
-    isSearchable (page) {
-      let searchPaths = SEARCH_PATHS
-
-      // all paths searchables
-      if (searchPaths === null) { return true }
-
-      searchPaths = Array.isArray(searchPaths) ? searchPaths : new Array(searchPaths)
-
-      return searchPaths.filter(path => {
-        return page.path.match(path)
-      }).length > 0
-    },
-
     onHotkey (event) {
       if (event.srcElement === document.body && SEARCH_HOTKEYS.includes(event.key)) {
         this.$refs.input.focus()
