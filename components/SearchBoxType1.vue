@@ -110,11 +110,12 @@ export default {
   methods: {
     async getSuggestions () {
       const query = this.query.trim().toLowerCase();
-      if (!query) {
-          return;
-      }
 
-      this.suggestions = await search.match(query);
+      if (!query) {
+        this.suggestions = [];
+      } else {
+        this.suggestions = await search.match(query);
+      }
     },
 
     onHotkey (event) {
