@@ -78,9 +78,6 @@ export default {
 
   computed: {
     showSuggestions () {
-      console.log('[showSuggestions]');
-      console.log(this.focused);
-      console.log(this.suggestions);
       return (
         this.focused
         && this.suggestions
