@@ -38,14 +38,10 @@
             v-html="s.title || s.regularPath"
             class="suggestion__title"
           ></span>
-          <span v-html="s.text" class="suggestion__result"></span>
-          <!--
-          <span class="page-title">{{ s.title || s.path }}</span>
           <span
-            v-if="s.header"
-            class="header"
-          >&gt; {{ s.header.title }}</span>
-          -->
+            v-html="s.text"
+            class="suggestion__result"
+          ></span>
         </a>
       </li>
     </ul>
