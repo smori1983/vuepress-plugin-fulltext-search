@@ -117,15 +117,6 @@ export default {
       this.suggestions = await search.match(query);
     },
 
-    getPageLocalePath (page) {
-      for (const localePath in this.$site.locales || {}) {
-        if (localePath !== '/' && page.path.indexOf(localePath) === 0) {
-          return localePath
-        }
-      }
-      return '/'
-    },
-
     onHotkey (event) {
       if (event.srcElement === document.body && SEARCH_HOTKEYS.includes(event.key)) {
         this.$refs.input.focus()
