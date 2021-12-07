@@ -2,7 +2,7 @@ const { path } = require('@vuepress/shared-utils');
 const { htmlToText } = require('html-to-text');
 const cjk = require('./misc/cjk');
 
-module.exports = (options, ctx, globalCtx) => ({
+module.exports = (options, ctx) => ({
   extendPageData($page) {
     const { html } = $page._context.markdown.render($page._strippedContent || '');
 
