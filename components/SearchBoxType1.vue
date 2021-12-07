@@ -220,6 +220,7 @@ export default {
     background-size 1rem
     &:focus
       cursor auto
+      width: 15rem;
       border-color $accentColor
   .suggestions
     background #fff
@@ -240,11 +241,17 @@ export default {
     a
       white-space normal
       color lighten($textColor, 35%)
-      .page-title
+      em
+        color $accentColor
+        font-weight bold
+        font-style normal
+      .suggestion__title
         font-weight 600
-      .header
+        color $textColor
+        display block
+        padding-bottom .4rem
+      .suggestion__text
         font-size 0.9em
-        margin-left 0.25em
     &.focused
       background-color #f3f4f5
       a
