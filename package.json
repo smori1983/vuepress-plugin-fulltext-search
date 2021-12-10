@@ -10,15 +10,15 @@
     "lint": "cross-env NODE_ENV=production eslint --max-warnings=0 --ext .js,.vue,.md ."
   },
   "dependencies": {
-    "flexsearch": "^0.6.32",
+    "flexsearch": "^0.7.2",
     "html-to-text": "^7.0.0",
     "lodash": "^4.17.19"
   },
-  "peerDependencies": {
-    "vuepress": "^1.4.0"
-  },
+  "peerDependencies": {},
   "devDependencies": {
     "cross-env": "^7.0.2",
-    "eslint-plugin-tyrecheck": "^2.10.3"
+    "eslint-plugin-tyrecheck": "^2.10.3",
+    "vuepress": "^1.8.2",
+    "vuepress-types": "^0.9.4"
   }
 }
